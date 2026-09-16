@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kiosk</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 20h18L12 4 3 20Z" />
+        <path d="M8.5 20 12 13l3.5 7" />
+      </svg>
+      <h1>Kiosk</h1>
+    </div>
+    <p class="tagline">A small outdoor gear shop. This is the whole book's app.</p>
+  </header>
+
+  <aside id="demo-note">
+    <p>
+      <strong>Live demo from the book <em>WebMCP in Practice</em>.</strong>
+      Everything a shopper can do here works normally. The tool panel further
+      down is real: it lists what an agent could call right now, and redraws
+      itself as the cart changes.
+    </p>
+    <p>
+      Expect one difference from the book's screenshots. This page runs the
+      <strong>polyfill</strong>, not native WebMCP, because the origin trial
+      needs a token tied to its own origin. So
+      <code>document.modelContext.getTools()</code> works in the console, but
+      DevTools' WebMCP panel stays empty. That is expected here rather than a
+      bug, and §2.3 explains why.
+    </p>
+  </aside>
+
+  <main>
+    <!--
+      This form works exactly like any other search form: type a query, pick a
+      category, press Search. Chapter 2 adds four attributes to it — toolname,
+      tooldescription, and a toolparamdescription on each field — and nothing
+      else changes. A human filling it out never sees the difference.
+    -->
+    <form id="search-form"
+          toolname="search-products"
+          tooldescription="Search Kiosk's product catalog by name and/or category."
+          toolautosubmit>
+      <label>
+        Search
+        <input type="text" name="query"
+               toolparamdescription="Text to match against the product name, e.g. 'trail runner'.">
+      </label>
+
+      <label>
+        Category
+        <select name="category"
+                toolparamdescription="Limit results to one category. Leave blank to search all categories.">
+          <option value="">All categories</option>
+          <option value="shoes">Shoes</option>
+          <option value="jackets">Jackets</option>
+          <option value="accessories">Accessories</option>
+        </select>
+      </label>
+
+      <button type="submit">Search</button>
+    </form>
+
+    <ul id="results" aria-live="polite"></ul>
+
+    <section id="cart" hidden>
+      <h2>Your cart</h2>
+      <ul id="cart-lines"></ul>
+      <p id="cart-total"></p>
+    </section>
+
+    <!--
+      Not a store feature — this panel exists so Chapter 5's argument is
+      something you can watch happen, not just take on faith. It lists
+      whatever document.modelContext.getTools() currently returns, and
+      redraws itself every time the "toolchange" event fires.
+    -->
+    <aside id="tools-panel">
+      <h2>Tools available to an agent right now</h2>
+      <ul id="tool-list"></ul>
+    </aside>
+  </main>
+
+  <div id="cart-bar">
+    <div class="inner">
+      <span id="cart-summary">Your cart is empty</span>
+      <button id="checkout-btn" type="button" disabled>Checkout</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+  <script type="module" src="tools.js"></script>
+</body>
+</html>

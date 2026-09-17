@@ -27,17 +27,26 @@ cart's contents is something you can watch rather than take on faith.
 
 ## What to expect from the deployed demo
 
-The deployed page runs the **polyfill**, not native WebMCP. Chrome's origin
-trial needs a token tied to its own origin, and the local testing flag only
-affects the browser you turn it on in. So:
+Which WebMCP the page runs depends on the visitor's browser, and the banner at
+the top says which one you have.
+
+**Most visitors get the polyfill.** The site serves no origin-trial token, so
+unless your own Chrome has WebMCP switched on, the polyfill installs itself:
 
 - `document.modelContext.getTools()` works in the console.
 - The on-page tool panel works.
 - DevTools' **WebMCP panel stays empty**. That is expected on a polyfilled
   page rather than a bug, and the book explains why in §2.3.
 
-To see the tools through native WebMCP instead, run this locally in Chrome
-149–156 with "WebMCP for testing" enabled in `chrome://flags`.
+**With the flags on, you get native WebMCP.** Use Chrome 149–156 with two
+`chrome://flags` entries enabled: "WebMCP for testing" turns on the API, and
+"WebMCP support in DevTools" adds the panel. The flags apply to every site in
+that browser, this one included, and the polyfill steps aside.
+
+Either way, a browser extension or other outside agent generally can't call
+these tools. They're registered for agents running in the page; bridging a tab
+out to another process needs `@mcp-b/transports`, which Kiosk deliberately
+doesn't use (§7.5, §9.4).
 
 ## The book
 

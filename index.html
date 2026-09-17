@@ -34,6 +34,14 @@
       DevTools' WebMCP panel stays empty. That is expected here rather than a
       bug, and §2.3 explains why.
     </p>
+    <p>
+      Pointing an external agent or a browser extension at this page will not
+      reach these tools either, and that is also by design. The JavaScript
+      surface these tools are registered through is meant for agents running
+      <em>in the page</em>; bridging a tab out to a separate process needs
+      <code>@mcp-b/transports</code>, which Kiosk deliberately does not use.
+      The book covers that boundary in §7.5 and §9.4.
+    </p>
   </aside>
 
   <main>

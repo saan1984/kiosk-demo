@@ -83,12 +83,14 @@ form.addEventListener('submit', (event) => {
   const results = searchProducts({ query: data.get('query') ?? '', category: data.get('category') ?? '' });
   render(results);
   // The search-products declarative tool (§2.5). Kiosk handles submit in the
-  // page, so an agent's call would hang without this — respondWith hands the
-  // result back and tells the browser not to navigate. The ?. no-ops where the
-  // method doesn't exist.
-  event.respondWith?.(Promise.resolve({
-    content: [{ type: 'text', text: `${results.length} product(s) match.` }],
-  }));
+  // page, so an agent's call would hang without respondWith: it hands the
+  // result back and tells the browser not to navigate. It throws on a submit a
+  // person made, and this one handler runs for both, so ask which it is first.
+  if (event.agentInvoked) {
+    event.respondWith(Promise.resolve({
+      content: [{ type: 'text', text: `${results.length} product(s) match.` }],
+    }));
+  }
 });
 
 onCartChange(renderCart);

@@ -33,10 +33,10 @@
     <p>
       A browser extension or other outside agent generally can't call these
       tools. The JavaScript surface they're registered through is meant for
-      agents running <em>in the page</em>, and Chrome's own built-in agent
-      reaches native tools by a separate route. Bridging a tab out to another
-      process needs <code>@mcp-b/transports</code>, which Kiosk deliberately
-      does not use. The book covers that boundary in §7.5 and §9.4.
+      agents running <em>in the page</em>, and the spec says the browser's own
+      built-in agent uses a separate internal route instead. Bridging a tab out
+      to another process needs <code>@mcp-b/transports</code>, which Kiosk
+      deliberately does not use. The book covers that boundary in §7.5 and §9.4.
     </p>
   </aside>
 
